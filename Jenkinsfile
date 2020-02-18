@@ -25,8 +25,8 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'hab-depot-token', variable: 'HAB_AUTH_TOKEN')]) {
                     script {
-                       sh 'hab origin key download --secret $HAB_ORIGIN -z $HAB_AUTH_TOKEN'
-                       sh 'hab origin key download $HAB_ORIGIN'
+                       powershell 'hab origin key download --secret $HAB_ORIGIN -z $HAB_AUTH_TOKEN'
+                       powershell 'hab origin key download $HAB_ORIGIN'
                     }
                 }
                 habitat task: 'build', directory: '.', origin: "${env.HAB_ORIGIN}", docker: true
