@@ -25,14 +25,19 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'hab-depot-token', variable: 'HAB_AUTH_TOKEN')]) {
                     script {
-                       powershell 'hab origin key download --secret $HAB_ORIGIN -z $HAB_AUTH_TOKEN'
-                       powershell 'hab origin key download $HAB_ORIGIN'
+                       powershell 'hab origin key download $env:HAB_ORIGIN -z $env:HAB_AUTH_TOKEN --secret'
+                       powershell 'hab origin key download $env:HAB_ORIGIN'
                     }
                 }
                 habitat task: 'build', directory: '.', origin: "${env.HAB_ORIGIN}", docker: true
             }
         }
         stage('Upload to unstable channel on bldr.habitat.sh') {
+	    agent {
+    	        node {
+        	    label 'windows'
+    		}
+	    }
             steps {
                 withCredentials([string(credentialsId: 'hab-depot-token', variable: 'HAB_AUTH_TOKEN')]) {
                     habitat task: 'upload', authToken: env.HAB_AUTH_TOKEN, lastBuildFile: "${workspace}/results/last_build.env", bldrUrl: "${env.HAB_BLDR_URL}"
@@ -40,6 +45,11 @@ pipeline {
             }
         }
         stage('Promote to Stable') {
+	    agent {
+    	        node {
+        	    label 'windows'
+    		}
+	    }
             steps {
                 script {
                     env.HAB_PKG = sh (
