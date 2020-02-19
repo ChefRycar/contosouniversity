@@ -27,9 +27,9 @@ pipeline {
                     script {
                        powershell 'hab origin key download $env:HAB_ORIGIN -z $env:HAB_AUTH_TOKEN --secret'
                        powershell 'hab origin key download $env:HAB_ORIGIN'
+                       powershell 'hab pkg build . -D'
                     }
                 }
-                habitat task: 'build', directory: '.', origin: "${env.HAB_ORIGIN}", docker: true
             }
         }
         stage('Upload to unstable channel on bldr.habitat.sh') {
