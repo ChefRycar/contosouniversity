@@ -27,8 +27,10 @@ pipeline {
                     script {
                        powershell 'hab origin key download $env:HAB_ORIGIN -z $env:HAB_AUTH_TOKEN --secret'
                        powershell 'hab origin key download $env:HAB_ORIGIN'
-                       powershell 'hab pkg build . -D'
+                       powershell 'echo hab pkg build . -D'
                     }
+                    habitat task: 'build', directory: '.', origin: "${env.HAB_ORIGIN}", docker: false
+
                 }
             }
         }
