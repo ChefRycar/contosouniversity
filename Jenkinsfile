@@ -29,7 +29,7 @@ pipeline {
                        powershell 'hab origin key download $env:HAB_ORIGIN'
                     }
                     habitat task: 'build', directory: '.', origin: "${env.HAB_ORIGIN}", docker: false
-                    powershell 'cp -Recurse /hab/studios/Jenkins--workspace--contosouniversity_master/src/results /Jenkins'
+                    powershell 'cp -Recurse -Force /hab/studios/Jenkins--workspace--contosouniversity_master/src/results /Jenkins'
 
                 }
             }
@@ -47,11 +47,6 @@ pipeline {
             }
         }
         stage('Promote to Stable') {
-	    agent {
-    	        node {
-        	    label 'windows'
-    		}
-	    }
             steps {
                 script {
                     env.HAB_PKG = sh (
