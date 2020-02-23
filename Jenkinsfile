@@ -42,7 +42,7 @@ pipeline {
 	    }
             steps {
                 withCredentials([string(credentialsId: 'hab-depot-token', variable: 'HAB_AUTH_TOKEN')]) {
-                    habitat task: 'upload', authToken: env.HAB_AUTH_TOKEN, lastBuildFile: "/hab/studios/Jenkins--workspace--contosouniversity_master/src/results/last_build.ps1", bldrUrl: "${env.HAB_BLDR_URL}"
+                    habitat task: 'upload', authToken: env.HAB_AUTH_TOKEN, bldrUrl: "${env.HAB_BLDR_URL}"
                 }
             }
         }
