@@ -50,7 +50,7 @@ pipeline {
             steps {
                 script {
                     env.HAB_PKG = sh (
-                        script: "curl -s https://bldr.habitat.sh/v1/depot/channels/nrycar/unstable/pkgs/contosouniversity/latest | jq '(.ident.name + \"/\" + .ident.version + \"/\" + .ident.release)'",
+                        script: "curl -s https://bldr.habitat.sh/v1/depot/channels/nrycar/unstable/pkgs/contosouniversity/latest\\?target\\=x86_64-windows | jq '(.ident.name + \"/\" + .ident.version + \"/\" + .ident.release)'",
                         returnStdout: true
                         ).trim()
                 }
