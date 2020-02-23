@@ -29,7 +29,7 @@ pipeline {
                        powershell 'hab origin key download $env:HAB_ORIGIN'
                        powershell 'echo hab pkg build . -D'
                     }
-                    habitat task: 'build', directory: '.', origin: "${env.HAB_ORIGIN}", docker: true
+                    habitat task: 'build', directory: '.', origin: "${env.HAB_ORIGIN}", docker: false
 
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
 	    }
             steps {
                 withCredentials([string(credentialsId: 'hab-depot-token', variable: 'HAB_AUTH_TOKEN')]) {
-                    habitat task: 'upload', authToken: env.HAB_AUTH_TOKEN, lastBuildFile: "${workspace}/results/last_build.ps1", bldrUrl: "${env.HAB_BLDR_URL}"
+                    habitat task: 'upload', authToken: env.HAB_AUTH_TOKEN, lastBuildFile: "/hab/studios/Jenkins--workspace--contosouniversity_master/src/results/last_build.ps1", bldrUrl: "${env.HAB_BLDR_URL}"
                 }
             }
         }
