@@ -42,6 +42,10 @@ pipeline {
 	    }
             steps {
                 withCredentials([string(credentialsId: 'hab-depot-token', variable: 'HAB_AUTH_TOKEN')]) {
+                    script {
+                       powershell 'hab origin key download $env:HAB_ORIGIN -z $env:HAB_AUTH_TOKEN --secret'
+                       powershell 'hab origin key download $env:HAB_ORIGIN'
+                    }
                     habitat task: 'upload', authToken: env.HAB_AUTH_TOKEN, lastBuildFile: "${workspace}/results/last_build.env", bldrUrl: "${env.HAB_BLDR_URL}"
                 }
             }
